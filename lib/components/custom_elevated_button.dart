@@ -14,7 +14,7 @@ class CustomElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: SizeConfig.screenWidth! * 0.4,
-      height: SizeConfig.screenHeight! * 0.07,
+      height: SizeConfig.screenHeight! * 0.05,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
@@ -27,7 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
         child: Text(elevatedButtonName,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 15,
             )),
       ),
     );

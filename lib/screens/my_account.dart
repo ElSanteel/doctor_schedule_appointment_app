@@ -5,11 +5,15 @@ import 'package:session_20/components/custom_elevated_button.dart';
 import 'package:session_20/components/custom_list_tile_for_my_account_and_patient_account.dart';
 import 'package:session_20/components/custom_text.dart';
 
+import '../core/size_config.dart';
+
 class MyAccountScreen extends StatelessWidget {
   const MyAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     return Scaffold(
       body: Column(
         children: [

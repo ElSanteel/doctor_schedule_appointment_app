@@ -40,7 +40,11 @@ class CustomListTile extends StatelessWidget {
             ),
           ],
         ),
-        trailing: Icon(trailingIcon),
+        trailing: Icon(
+          trailingIcon,
+          color: trailingIconColor,
+          size: 50,
+        ),
       ),
     );
   }

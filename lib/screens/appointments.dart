@@ -15,12 +15,14 @@ class AppointmentsScreen extends StatelessWidget {
     {
       "doctorName": "Alexandru Sandu",
       "time": "16:40",
-      "trailingIcon": Icons.remove,
+      "trailingIcon": Icons.close,
+      "trailingIconColor": Colors.red
     },
     {
       "doctorName": "Dumitru Simona",
       "time": "8:00",
-      "trailingIcon": Icons.done_all
+      "trailingIcon": Icons.done_all,
+      "trailingIconColor": Color(0xff18a7d1)
     },
   ];
 
@@ -48,7 +50,7 @@ class AppointmentsScreen extends StatelessWidget {
                 doctorName: appointments[index]['doctorName'] ?? "",
                 time: appointments[index]['time'] ?? "",
                 trailingIcon: appointments[index]['trailingIcon'],
-                trailingIconColor: Colors.blue,
+                trailingIconColor: appointments[index]['trailingIconColor'],
               );
             },
           ),

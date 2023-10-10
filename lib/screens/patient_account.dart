@@ -5,27 +5,34 @@ import 'package:session_20/components/custom_elevated_button.dart';
 import 'package:session_20/components/custom_list_tile_for_my_account_and_patient_account.dart';
 import 'package:session_20/components/custom_text.dart';
 
+import '../core/size_config.dart';
+
 class PatientAccountScreen extends StatelessWidget {
   const PatientAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     return Scaffold(
       body: Column(children: [
         CustomContainer(
           text: "Patient Account",
           icon: Icons.menu,
         ),
+        const SizedBox(height: 30),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CustomCircleAvatar(imagePath: "assets/images/hurt_person.png"),
             Column(
               children: [
                 CustomText(
-                    textContent: "Dumitru Simona", isBold: true, fontSize: 10),
+                    textContent: "Dumitru Simona", isBold: true, fontSize: 30),
+                const SizedBox(height: 15),
                 CustomElevatedButton(
                   elevatedButtonName: "Medial History",
-                  elevatedButtonColor: Color(0xff3abdd7),
+                  elevatedButtonColor: const Color(0xff3abdd7),
                 )
               ],
             )
@@ -39,7 +46,7 @@ class PatientAccountScreen extends StatelessWidget {
         CustomListTileMyAccountAndPatientAccount(
             icon: Icons.phone_iphone,
             title: "07534677277",
-            titleColor: Color(0xff3ac0e3)),
+            titleColor: const Color(0xff3ac0e3)),
         CustomListTileMyAccountAndPatientAccount(
             icon: Icons.location_pin,
             title: "48 Traian Streat, Building 51,\nApartment 02, Brasov",
@@ -50,7 +57,7 @@ class PatientAccountScreen extends StatelessWidget {
               "Medical tests are performed to\nverify the state of health...",
           titleColor: const Color(0xff3ac0e3),
         ),
-        SizedBox(
+        const SizedBox(
           height: 100,
         ),
         Row(
@@ -58,13 +65,13 @@ class PatientAccountScreen extends StatelessWidget {
           children: [
             CustomElevatedButton(
                 elevatedButtonName: "START\nPROCEDURES",
-                elevatedButtonColor: Color(0xff3abdd7)),
+                elevatedButtonColor: const Color(0xff3abdd7)),
             CustomElevatedButton(
                 elevatedButtonName: "EDIT",
-                elevatedButtonColor: Color(0xffcecece)),
+                elevatedButtonColor: const Color(0xffcecece)),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 25,
         ),
         Row(
@@ -72,10 +79,10 @@ class PatientAccountScreen extends StatelessWidget {
           children: [
             CustomElevatedButton(
                 elevatedButtonName: "BACK",
-                elevatedButtonColor: Color(0xff3abdd7)),
+                elevatedButtonColor: const Color(0xff3abdd7)),
             CustomElevatedButton(
                 elevatedButtonName: "PATIENT\nMISSING",
-                elevatedButtonColor: Color(0xff3abdd7)),
+                elevatedButtonColor: const Color(0xff3abdd7)),
           ],
         )
       ]),

@@ -4,8 +4,8 @@ import '../core/size_config.dart';
 
 class CustomContainer extends StatelessWidget {
   String text;
-  IconData? icon;
-  CustomContainer({required this.text, this.icon, super.key});
+  IconData icon;
+  CustomContainer({required this.text, required this.icon, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +23,12 @@ class CustomContainer extends StatelessWidget {
           ),
           Text(
             text,
-            style: TextStyle(fontSize: 25, color: Colors.white),
+            style: const TextStyle(fontSize: 25, color: Colors.white),
           ),
           const Spacer(),
           IconButton(
             icon: Icon(
-              icon!,
+              icon,
               size: 50,
               color: Colors.white,
             ),
