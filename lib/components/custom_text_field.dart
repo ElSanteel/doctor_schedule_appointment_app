@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
-  final String error;
   final bool isNumeric;
-  final ValueChanged<String> onChanged;
+  final TextEditingController controller;
+  final dynamic validator;
 
   const CustomTextField({
     super.key,
     required this.label,
-    required this.error,
-    required this.onChanged,
+    required this.controller,
+    required this.validator,
     this.isNumeric = false,
   });
 
@@ -19,24 +19,19 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label),
-        TextField(
-          onChanged: onChanged,
-          keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
+        const SizedBox(
+          height: 15,
         ),
-        _buildErrorMessage(error),
+        Text(label),
+        TextFormField(
+          controller: controller,
+          keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
+          validator: validator,
+        ),
+        const SizedBox(
+          height: 15,
+        )
       ],
     );
-  }
-
-  Widget _buildErrorMessage(String error) {
-    if (error.isNotEmpty) {
-      return Text(
-        error,
-        style: const TextStyle(color: Colors.red),
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
   }
 }

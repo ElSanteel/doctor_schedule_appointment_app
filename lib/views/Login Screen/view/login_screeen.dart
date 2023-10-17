@@ -10,52 +10,57 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xff3abdd7),
         title: const Text('Login Screen'),
       ),
       body: BlocConsumer<DoctorAppointmentAppCubit, DoctorAppointmentAppState>(
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = DoctorAppointmentAppCubit.get(context);
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextField(
-                  label: 'Phone',
-                  error: cubit.phoneError,
-                  onChanged: (value) {
-                    cubit.validatePhone(value);
-                  },
-                  isNumeric: true,
-                ),
-                CustomTextField(
-                  label: 'Password',
-                  error: cubit.passwordError,
-                  onChanged: (value) {
-                    cubit.changePasswordValue(value);
-                  },
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    cubit.clearError();
-                    cubit.validatePhone(cubit.phone);
-                    cubit.changePasswordValue(cubit.password);
-
-                    if (cubit.phoneError.isNotEmpty ||
-                        cubit.passwordError.isNotEmpty) {
-                      cubit.displayError();
-                    } else {
-                      if (cubit.userType.isNotEmpty) {
-                        if (cubit.userType == 'Admin') {
-                        } else if (cubit.userType == 'Manager') {
-                        } else if (cubit.userType == 'Employee') {}
+          return Form(
+            key: cubit.formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomTextField(
+                    label: 'Phone',
+                    controller: cubit.phoneController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Phone is required';
                       }
-                    }
-                  },
-                  child: const Text('Login'),
-                ),
-              ],
+                      return null;
+                    },
+                    isNumeric: true,
+                  ),
+                  CustomTextField(
+                    label: 'Password',
+                    controller: cubit.passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xff3abdd7)),
+                      onPressed: () {
+                        if (cubit.formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Login Successful')),
+                          );
+                        }
+                      },
+                      child: const Text('Login'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },

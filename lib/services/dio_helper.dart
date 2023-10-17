@@ -48,8 +48,7 @@ class DioHelper {
       "Content-Type": "application/json",
       'accept-Language': acceptLang ?? 'en',
     };
-    print(data);
-    print(url);
+
     return dio.post(url, queryParameters: query, data: data);
   }
 

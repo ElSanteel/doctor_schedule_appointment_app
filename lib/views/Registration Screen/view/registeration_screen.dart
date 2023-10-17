@@ -11,6 +11,7 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xff3abdd7),
         title: const Text('Registration Form'),
       ),
       body: BlocConsumer<DoctorAppointmentAppCubit, DoctorAppointmentAppState>(
@@ -19,66 +20,83 @@ class RegisterScreen extends StatelessWidget {
         },
         builder: (context, state) {
           var cubit = DoctorAppointmentAppCubit.get(context);
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextField(
-                  label: 'Name',
-                  error: '',
-                  onChanged: cubit.changeNameValue,
-                ),
-                CustomTextField(
-                    label: 'Email',
-                    error: '',
-                    onChanged: cubit.changeEmailValue),
-                CustomTextField(
-                  label: 'Phone',
-                  error: cubit.phoneError,
-                  onChanged: (value) {
-                    cubit.validatePhone(value);
-                  },
-                  isNumeric: true,
-                ),
-                CustomTextField(
-                  label: 'Gender',
-                  error: '',
-                  onChanged: (value) {
-                    cubit.changeGenderValue(value);
-                  },
-                ),
-                CustomTextField(
-                  label: 'Password',
-                  error: cubit.passwordError,
-                  onChanged: (value) {
-                    cubit.changePasswordValue(value);
-                  },
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    cubit.clearError();
-                    cubit.validatePhone(cubit.phone);
-                    cubit.changePasswordValue(cubit.password);
-
-                    if (cubit.phoneError.isNotEmpty ||
-                        cubit.passwordError.isNotEmpty) {
-                      cubit.displayError();
-                    } else {
-                      if (cubit.userType.isNotEmpty) {
-                        if (cubit.userType == 'Admin') {
-                          // Handle admin login
-                        } else if (cubit.userType == 'Manager') {
-                          // Handle manager login
-                        } else if (cubit.userType == 'Employee') {
-                          // Handle employee login
+          return Form(
+            key: cubit.formKey,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      label: 'Name',
+                      controller: cubit.nameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Name is required';
                         }
-                      }
-                    }
-                  },
-                  child: const Text('Register'),
-                )
-              ],
+                        return null;
+                      },
+                    ),
+                    CustomTextField(
+                      label: 'Email',
+                      controller: cubit.emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Email is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomTextField(
+                      label: 'Phone',
+                      controller: cubit.phoneController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Phone is required';
+                        }
+                        return null;
+                      },
+                      isNumeric: true,
+                    ),
+                    CustomTextField(
+                      label: 'Gender',
+                      controller: cubit.genderController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Gender is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomTextField(
+                      label: 'Password',
+                      controller: cubit.passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Password is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff3abdd7)),
+                        onPressed: () {
+                          if (cubit.formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Registration Successful')),
+                            );
+                          }
+                        },
+                        child: const Text('Register'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         },
