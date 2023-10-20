@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:session_20/views/Appointment%20Screen/view/appointments_screen.dart';
 import 'package:session_20/views/Authentication%20Screen/view/authentication_screen.dart';
 
-import '../core/utils/size_config.dart';
-import '../services/Shared Preference/shared_preference_helper.dart';
+import '../../../core/utils/size_config.dart';
+import '../../../services/Shared Preference/shared_preference_helper.dart';
+import '../../../tokens.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   dynamic route() {
-    if (SharedPreferenceHelper.getData(key: "Email") == null) {
+    if (SharedPreferenceHelper.getData(key: userTokenKey) == null) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const AuthenticationScreen()),

@@ -4,7 +4,7 @@ import '../utils/size_config.dart';
 
 class CustomContainer extends StatelessWidget {
   String text;
-  IconData icon;
+  Widget icon;
   CustomContainer({required this.text, required this.icon, super.key});
 
   @override
@@ -26,14 +26,7 @@ class CustomContainer extends StatelessWidget {
             style: const TextStyle(fontSize: 25, color: Colors.white),
           ),
           const Spacer(),
-          IconButton(
-            icon: Icon(
-              icon,
-              size: 50,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          )
+          icon
         ]),
       ),
     );

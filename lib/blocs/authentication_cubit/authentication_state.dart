@@ -15,9 +15,9 @@ class UserLoginErrorState extends AuthenticationState {
   UserLoginErrorState(this.loginErrorMessage);
 }
 
-class RegisterLoadingState extends AuthenticationState {}
+class UserRegisterLoadingState extends AuthenticationState {}
 
-class RegisterSuccessState extends AuthenticationState {}
+class UserRegisterSuccessState extends AuthenticationState {}
 
 class UserRegisterErrorState extends AuthenticationState {
   String registerErrorMessage;

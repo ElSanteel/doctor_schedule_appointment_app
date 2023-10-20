@@ -17,8 +17,8 @@ class PatientAccountScreen extends StatelessWidget {
     return Scaffold(
       body: Column(children: [
         CustomContainer(
+          icon: const Icon(Icons.menu),
           text: "Patient Account",
-          icon: Icons.menu,
         ),
         const SizedBox(height: 30),
         Row(

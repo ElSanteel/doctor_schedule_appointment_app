@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:session_20/blocs/authentication_cubit/authentication_cubit.dart';
+import 'package:session_20/models/register_model.dart';
 import '../../../core/components/custom_text_field.dart';
+import '../../Authentication Screen/view/authentication_screen.dart';
 import '../component/gender_selection_widget.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -22,7 +24,22 @@ class RegisterScreen extends StatelessWidget {
       ),
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is UserRegisterSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Register Successful')),
+            );
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const AuthenticationScreen()),
+              (route) => false,
+            );
+          } else if (state is UserRegisterErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.registerErrorMessage)),
+            );
+          }
         },
         builder: (context, state) {
           var cubit = AuthenticationCubit.get(context);
@@ -47,7 +64,7 @@ class RegisterScreen extends StatelessWidget {
                     CustomTextField(
                       prefixIcon: const Icon(Icons.person),
                       labelText: "Enter your name",
-                      controller: cubit.nameController,
+                      controller: cubit.registerNameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Name is required';
@@ -58,7 +75,7 @@ class RegisterScreen extends StatelessWidget {
                     CustomTextField(
                       prefixIcon: const Icon(Icons.mail),
                       labelText: "Enter your email",
-                      controller: cubit.emailController,
+                      controller: cubit.registerEmailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Email is required';
@@ -73,10 +90,16 @@ class RegisterScreen extends StatelessWidget {
                     CustomTextField(
                       prefixIcon: const Icon(Icons.phone),
                       labelText: "Enter your phone",
-                      controller: cubit.phoneController,
+                      controller: cubit.registerPhoneController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Phone is required';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Phone must contain only numeric values (0-9)';
+                        }
+                        if (value.startsWith('-')) {
+                          return 'Phone cannot be a negative value';
                         }
                         return null;
                       },
@@ -94,7 +117,7 @@ class RegisterScreen extends StatelessWidget {
                         },
                       ),
                       labelText: "Enter your password",
-                      controller: cubit.passwordController,
+                      controller: cubit.registerPasswordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Password is required';
@@ -114,7 +137,7 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       labelText: "Confirm your Password",
                       obscureText: !cubit.isVisible,
-                      controller: cubit.passwordController,
+                      controller: cubit.registerConfirmationPasswordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Password is required';
@@ -132,19 +155,42 @@ class RegisterScreen extends StatelessWidget {
                       child: SizedBox(
                         width: 350,
                         height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff3abdd7)),
-                          onPressed: () {
-                            if (cubit.formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Registration Successful')),
-                              );
-                            }
-                          },
-                          child: const Text('Register'),
-                        ),
+                        child: state is UserLoginLoadingState
+                            ? const CircularProgressIndicator()
+                            : ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xff3abdd7)),
+                                onPressed: () {
+                                  RegisterRequestModel registerRequestModel =
+                                      RegisterRequestModel(
+                                          cubit.registerNameController.text,
+                                          cubit.registerEmailController.text,
+                                          cubit.registerPhoneController.text,
+                                          cubit.registerPasswordController.text,
+                                          cubit.selectedGender.toString(),
+                                          cubit
+                                              .registerConfirmationPasswordController
+                                              .text);
+                                  cubit.userRegister(registerRequestModel);
+                                  if (cubit.formKey.currentState!.validate()) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Registration Successful'),
+                                      ),
+                                    );
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AuthenticationScreen(),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: const Text('Register'),
+                              ),
                       ),
                     ),
                   ],

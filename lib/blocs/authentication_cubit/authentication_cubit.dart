@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:session_20/services/Shared%20Preference/shared_preference_helper.dart';
 import 'package:session_20/services/dio/dio_helper.dart';
 import 'package:session_20/tokens.dart';
@@ -20,6 +18,30 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
   static AuthenticationCubit get(context) => BlocProvider.of(context);
 
+  final formKey = GlobalKey<FormState>();
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();
+  TextEditingController registerNameController = TextEditingController();
+  TextEditingController registerEmailController = TextEditingController();
+  TextEditingController registerPhoneController = TextEditingController();
+  TextEditingController registerPasswordController = TextEditingController();
+  TextEditingController registerConfirmationPasswordController =
+      TextEditingController();
+
+  bool isVisible = true;
+
+  Gender selectedGender = Gender.male;
+
+  void setSelectedGender(Gender gender) {
+    selectedGender = gender;
+    emit(AuthenticationGenderChanged(selectedGender));
+  }
+
+  void togglePasswordVisibility() {
+    isVisible = !isVisible;
+    emit(PasswordVisibilityChanged(isVisible));
+  }
+
   void userLogin(LoginRequestModel loginRequestModel) {
     emit(UserLoginLoadingState());
     DioHelper.postData(url: postUserLogin, data: loginRequestModel.toJson())
@@ -33,10 +55,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
                 SharedPreferenceHelper.saveData(
                     key: userNameTokenKey,
                     value: loginResponseModel.data!.username!);
+                print(loginResponseModel.data!.token!);
                 emit(UserLoginSuccessState());
               } else {
-                print(value.data);
-                emit(UserLoginErrorState(value.data.toString()));
+                var jsonData = jsonDecode(value.data);
+                print(jsonData);
+                emit(UserLoginErrorState(jsonData['data'].toString()));
               }
             })
         .catchError((onError) {
@@ -45,42 +69,22 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void userRegister(RegisterRequestModel registerRequestModel) {
-    emit(UserLoginLoadingState());
+    emit(UserRegisterLoadingState());
     DioHelper.postData(url: postUserLogin, data: registerRequestModel.toJson())
         .then((value) => (value) {
               if (value.statueCode == 200 || value.statusCode == 201) {
                 var jsonData = jsonDecode(value.data);
                 RegisterResponseModel registerResponseModel =
                     RegisterResponseModel.fromJson(jsonData);
-                emit(UserLoginSuccessState());
+                emit(UserRegisterSuccessState());
               } else {
                 print(value.data);
-                emit(UserLoginErrorState(value.data.toString()));
+                emit(UserRegisterErrorState(value.data.toString()));
               }
             })
         .catchError((onError) {
-      emit(UserLoginErrorState(onError.toString()));
+      emit(UserRegisterErrorState(onError.toString()));
     });
-  }
-
-  final formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool isVisible = true;
-
-  Gender selectedGender = Gender.male;
-
-  void setSelectedGender(Gender gender) {
-    selectedGender = gender;
-    emit(AuthenticationGenderChanged(selectedGender));
-  }
-
-  // Function to toggle password visibility
-  void togglePasswordVisibility() {
-    isVisible = !isVisible;
-    emit(PasswordVisibilityChanged(isVisible));
   }
 
   final List<AppointmentModel> appointments = [

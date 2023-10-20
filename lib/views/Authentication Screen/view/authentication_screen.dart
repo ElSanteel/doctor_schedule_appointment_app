@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:session_20/models/login_model.dart';
 import 'package:session_20/views/Appointment%20Screen/view/appointments_screen.dart';
 import 'package:session_20/views/Registration%20Screen/view/registration_screen.dart';
-
 import '../../../blocs/authentication_cubit/authentication_cubit.dart';
 import '../../../core/components/custom_text_field.dart';
 import '../component/custom_button.dart';
@@ -24,11 +23,13 @@ class AuthenticationScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Login Successful')),
             );
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        const AppointmentsScreen()));
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const AppointmentsScreen()),
+              (route) => false,
+            );
           } else if (state is UserLoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.loginErrorMessage)),
@@ -48,7 +49,7 @@ class AuthenticationScreen extends StatelessWidget {
                   CustomTextField(
                     prefixIcon: const Icon(Icons.mail),
                     labelText: "Enter your Email",
-                    controller: cubit.emailController,
+                    controller: cubit.loginEmailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return ' Email is required';
@@ -73,7 +74,7 @@ class AuthenticationScreen extends StatelessWidget {
                     ),
                     labelText: "Enter your Password",
                     obscureText: !cubit.isVisible,
-                    controller: cubit.passwordController,
+                    controller: cubit.loginPasswordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Password is required';
@@ -81,17 +82,22 @@ class AuthenticationScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  state is UserLoginLoadingState
-                      ? const CircularProgressIndicator()
-                      : CustomButton(
-                          label: 'Login',
-                          onPressed: () {
-                            LoginRequestModel loginRequestModel =
-                                LoginRequestModel(cubit.emailController.text,
-                                    cubit.passwordController.text);
-                            cubit.userLogin(loginRequestModel);
-                          },
-                        ),
+                  Center(
+                    child: state is UserLoginLoadingState
+                        ? const CircularProgressIndicator()
+                        : CustomButton(
+                            label: 'Login',
+                            onPressed: () {
+                              if (cubit.formKey.currentState!.validate()) {
+                                LoginRequestModel loginRequestModel =
+                                    LoginRequestModel(
+                                        cubit.loginEmailController.text,
+                                        cubit.loginPasswordController.text);
+                                cubit.userLogin(loginRequestModel);
+                              }
+                            },
+                          ),
+                  ),
                   const SizedBox(height: 25),
                   CustomButton(
                     label: 'Register',
