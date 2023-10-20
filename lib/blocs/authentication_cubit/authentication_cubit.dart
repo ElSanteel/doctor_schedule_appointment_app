@@ -9,7 +9,6 @@ import 'package:session_20/tokens.dart';
 import '../../enum/gender_enum.dart';
 import '../../models/Login Model/login_request_model.dart';
 import '../../models/Login Model/login_response_model.dart';
-import '../../models/Register Model/register_response_model.dart';
 import '../../models/appointment_model.dart';
 import '../../models/Register Model/register_request_model.dart';
 import '../../services/dio/api_end_points.dart';
@@ -48,45 +47,42 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   void userLogin(LoginRequestModel loginRequestModel) {
     emit(UserLoginLoadingState());
+    print("Loading");
     DioHelper.postData(url: postUserLogin, data: loginRequestModel.toJson())
-        .then((value) => (value) {
-              if (value.statueCode == 200 || value.statusCode == 201) {
-                var jsonData = jsonDecode(value.data);
-                LoginResponseModel loginResponseModel =
-                    LoginResponseModel.fromJson(jsonData);
-                SharedPreferenceHelper.saveData(
-                    key: userTokenKey, value: loginResponseModel.data!.token!);
-                SharedPreferenceHelper.saveData(
-                    key: userNameTokenKey,
-                    value: loginResponseModel.data!.username!);
-                print(loginResponseModel.data!.token!);
-                emit(UserLoginSuccessState());
-              } else {
-                var jsonData = jsonDecode(value.data);
-                print(jsonData);
-                emit(UserLoginErrorState(jsonData['data'].toString()));
-              }
-            })
-        .catchError((onError) {
+        .then((value) {
+      if (value.statusCode == 200 || value.statusCode == 201) {
+        var jsonData = jsonDecode(value.data);
+        LoginResponseModel loginResponseModel =
+            LoginResponseModel.fromJson(jsonData);
+        SharedPreferenceHelper.saveData(
+            key: userTokenKey, value: loginResponseModel.data!.token!);
+        SharedPreferenceHelper.saveData(
+            key: userNameTokenKey, value: loginResponseModel.data!.username!);
+        print(loginResponseModel.data!.token!);
+        emit(UserLoginSuccessState());
+      } else {
+        var jsonData = jsonDecode(value.data);
+        print(jsonData);
+        emit(UserLoginErrorState(jsonData['data'].toString()));
+      }
+    }).catchError((onError) {
       emit(UserLoginErrorState(onError.toString()));
     });
   }
 
   void userRegister(RegisterRequestModel registerRequestModel) {
     emit(UserRegisterLoadingState());
-    DioHelper.postData(url: postUserLogin, data: registerRequestModel.toJson())
-        .then((value) => (value) {
-              if (value.statueCode == 200 || value.statusCode == 201) {
-                var jsonData = jsonDecode(value.data);
-                RegisterResponseModel registerResponseModel =
-                    RegisterResponseModel.fromJson(jsonData);
-                emit(UserRegisterSuccessState());
-              } else {
-                print(value.data);
-                emit(UserRegisterErrorState(value.data.toString()));
-              }
-            })
-        .catchError((onError) {
+    print(registerRequestModel.toJson());
+    DioHelper.postData(
+            url: postUserRegister, data: registerRequestModel.toJson())
+        .then((value) {
+      if (value.statusCode == 200 || value.statusCode == 201) {
+        emit(UserRegisterSuccessState());
+      } else {
+        print(value.data);
+        emit(UserRegisterErrorState(value.data.toString()));
+      }
+    }).catchError((onError) {
       emit(UserRegisterErrorState(onError.toString()));
     });
   }

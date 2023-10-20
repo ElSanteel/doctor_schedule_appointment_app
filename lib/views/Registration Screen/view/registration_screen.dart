@@ -165,23 +165,17 @@ class RegisterScreen extends StatelessWidget {
                                       .validate()) {
                                     RegisterRequestModel registerRequestModel =
                                         RegisterRequestModel(
-                                      cubit.registerEmailController.text,
-                                      cubit.registerPasswordController.text,
-                                      cubit.registerNameController.text,
-                                      cubit.registerPhoneController.text,
-                                      cubit
+                                      email: cubit.registerEmailController.text,
+                                      password:
+                                          cubit.registerPasswordController.text,
+                                      name: cubit.registerNameController.text,
+                                      phone: cubit.registerPhoneController.text,
+                                      pasword_confirmation: cubit
                                           .registerConfirmationPasswordController
                                           .text,
-                                      cubit.selectedGender.toString(),
+                                      gender: cubit.selectedGender.toString(),
                                     );
                                     cubit.userRegister(registerRequestModel);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AuthenticationScreen(),
-                                      ),
-                                    );
                                   }
                                 },
                                 child: const Text('Register'),

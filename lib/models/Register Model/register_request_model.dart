@@ -6,8 +6,13 @@ class RegisterRequestModel {
   String password;
   String pasword_confirmation;
 
-  RegisterRequestModel(this.name, this.email, this.phone, this.gender,
-      this.password, this.pasword_confirmation);
+  RegisterRequestModel(
+      {required this.name,
+      required this.email,
+      required this.phone,
+      required this.gender,
+      required this.password,
+      required this.pasword_confirmation});
 
   Map<String, dynamic> toJson() {
     return {
