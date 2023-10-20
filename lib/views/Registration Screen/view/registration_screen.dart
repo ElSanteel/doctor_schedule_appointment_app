@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:session_20/blocs/authentication_cubit/authentication_cubit.dart';
-import 'package:session_20/models/register_model.dart';
+import 'package:session_20/models/Register%20Model/register_request_model.dart';
 import '../../../core/components/custom_text_field.dart';
 import '../../Authentication Screen/view/authentication_screen.dart';
 import '../component/gender_selection_widget.dart';

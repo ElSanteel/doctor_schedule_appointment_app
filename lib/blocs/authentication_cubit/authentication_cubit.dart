@@ -7,9 +7,11 @@ import 'package:session_20/services/dio/dio_helper.dart';
 import 'package:session_20/tokens.dart';
 
 import '../../enum/gender_enum.dart';
+import '../../models/Login Model/login_request_model.dart';
+import '../../models/Login Model/login_response_model.dart';
+import '../../models/Register Model/register_response_model.dart';
 import '../../models/appointment_model.dart';
-import '../../models/login_model.dart';
-import '../../models/register_model.dart';
+import '../../models/Register Model/register_request_model.dart';
 import '../../services/dio/api_end_points.dart';
 
 part 'authentication_state.dart';

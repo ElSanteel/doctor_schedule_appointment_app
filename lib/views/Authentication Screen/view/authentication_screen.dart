@@ -5,6 +5,7 @@ import 'package:session_20/views/Appointment%20Screen/view/appointments_screen.d
 import 'package:session_20/views/Registration%20Screen/view/registration_screen.dart';
 import '../../../blocs/authentication_cubit/authentication_cubit.dart';
 import '../../../core/components/custom_text_field.dart';
+import '../../../models/Login Model/login_request_model.dart';
 import '../component/custom_button.dart';
 
 class AuthenticationScreen extends StatelessWidget {
