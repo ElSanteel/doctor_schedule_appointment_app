@@ -44,7 +44,7 @@ class RegisterScreen extends StatelessWidget {
         builder: (context, state) {
           var cubit = AuthenticationCubit.get(context);
           return Form(
-            key: cubit.formKey,
+            key: cubit.registerFormKey,
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -161,25 +161,20 @@ class RegisterScreen extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff3abdd7)),
                                 onPressed: () {
-                                  RegisterRequestModel registerRequestModel =
-                                      RegisterRequestModel(
-                                          cubit.registerNameController.text,
-                                          cubit.registerEmailController.text,
-                                          cubit.registerPhoneController.text,
-                                          cubit.registerPasswordController.text,
-                                          cubit.selectedGender.toString(),
-                                          cubit
-                                              .registerConfirmationPasswordController
-                                              .text);
-                                  cubit.userRegister(registerRequestModel);
-                                  if (cubit.formKey.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Registration Successful'),
-                                      ),
+                                  if (cubit.registerFormKey.currentState!
+                                      .validate()) {
+                                    RegisterRequestModel registerRequestModel =
+                                        RegisterRequestModel(
+                                      cubit.registerEmailController.text,
+                                      cubit.registerPasswordController.text,
+                                      cubit.registerNameController.text,
+                                      cubit.registerPhoneController.text,
+                                      cubit
+                                          .registerConfirmationPasswordController
+                                          .text,
+                                      cubit.selectedGender.toString(),
                                     );
-
+                                    cubit.userRegister(registerRequestModel);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

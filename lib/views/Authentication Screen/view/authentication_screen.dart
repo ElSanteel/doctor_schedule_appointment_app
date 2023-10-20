@@ -40,7 +40,7 @@ class AuthenticationScreen extends StatelessWidget {
           var cubit = AuthenticationCubit.get(context);
 
           return Form(
-            key: cubit.formKey,
+            key: cubit.loginFormKey,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -88,7 +88,7 @@ class AuthenticationScreen extends StatelessWidget {
                         : CustomButton(
                             label: 'Login',
                             onPressed: () {
-                              if (cubit.formKey.currentState!.validate()) {
+                              if (cubit.loginFormKey.currentState!.validate()) {
                                 LoginRequestModel loginRequestModel =
                                     LoginRequestModel(
                                         cubit.loginEmailController.text,

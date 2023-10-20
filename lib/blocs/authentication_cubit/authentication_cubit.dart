@@ -18,7 +18,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
   static AuthenticationCubit get(context) => BlocProvider.of(context);
 
-  final formKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
+  final registerFormKey = GlobalKey<FormState>();
+
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
   TextEditingController registerNameController = TextEditingController();
