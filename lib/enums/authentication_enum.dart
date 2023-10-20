@@ -1,1 +1,0 @@
-enum AuthenticationState { authenticated, unauthenticated }

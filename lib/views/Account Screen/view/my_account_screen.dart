@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:session_20/components/custom_circle_avatar.dart';
-import 'package:session_20/components/custom_container.dart';
-import 'package:session_20/components/custom_elevated_button.dart';
-import 'package:session_20/components/custom_list_tile_for_my_account_and_patient_account.dart';
-import 'package:session_20/components/custom_text.dart';
-
-import '../../../core/size_config.dart';
+import '../../../core/components/custom_circle_avatar.dart';
+import '../../../core/components/custom_container.dart';
+import '../../../core/components/custom_elevated_button.dart';
+import '../../../core/components/custom_list_tile_for_my_account_and_patient_account.dart';
+import '../../../core/components/custom_text.dart';
+import '../../../core/utils/size_config.dart';
 
 class MyAccountScreen extends StatelessWidget {
   const MyAccountScreen({super.key});

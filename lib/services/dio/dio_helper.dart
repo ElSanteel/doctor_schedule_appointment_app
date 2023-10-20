@@ -5,7 +5,7 @@ class DioHelper {
 
   //TODO :: BaseURL
   static init() {
-    String baseUrl = 'http://api.weatherapi.com/v1';
+    String baseUrl = 'https://vcare.integration25.com/api/';
 
     dio = Dio(
       BaseOptions(
@@ -13,7 +13,7 @@ class DioHelper {
         receiveDataWhenStatusError: true,
         responseType: ResponseType.plain,
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         validateStatus: (status) {
           return (status! <= 505);
@@ -64,5 +64,18 @@ class DioHelper {
     };
 
     return dio.put(url, queryParameters: query, data: data);
+  }
+
+  static Future<Response> deleteData({
+    required String url,
+    Map<String, dynamic>? query,
+    String? token,
+    String? acceptLang,
+  }) async {
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $token',
+    };
+    return await dio.delete(url, queryParameters: query);
   }
 }

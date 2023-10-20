@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../core/size_config.dart';
+import '../utils/size_config.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   String elevatedButtonName;

@@ -1,27 +1,50 @@
-class RegisterModel {
+class RegisterRequestModel {
+  String name;
+  String email;
+  String phone;
+  String gender;
+  String password;
+  String pasword_confirmation;
+
+  RegisterRequestModel(this.name, this.email, this.phone, this.gender,
+      this.password, this.pasword_confirmation);
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "gender": gender,
+      "password": password,
+      "password_conformation": pasword_confirmation
+    };
+  }
+}
+
+class RegisterResponseModel {
   String? message;
   Data? data;
   bool? status;
   int? code;
 
-  RegisterModel({this.message, this.data, this.status, this.code});
+  RegisterResponseModel({this.message, this.data, this.status, this.code});
 
-  RegisterModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-    status = json['status'];
-    code = json['code'];
+  RegisterResponseModel.fromJson(Map<String, dynamic> json) {
+    message = json["message"];
+    data = json["data"] == null ? null : Data.fromJson(json["data"]);
+    status = json["status"];
+    code = json["code"];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["message"] = message;
+    if (data != null) {
+      _data["data"] = data?.toJson();
     }
-    data['status'] = status;
-    data['code'] = code;
-    return data;
+    _data["status"] = status;
+    _data["code"] = code;
+    return _data;
   }
 }
 
@@ -35,20 +58,31 @@ class Data {
   Data({this.name, this.email, this.phone, this.gender, this.password});
 
   Data.fromJson(Map<String, dynamic> json) {
-    name = json['name'].cast<String>();
-    email = json['email'].cast<String>();
-    phone = json['phone'].cast<String>();
-    gender = json['gender'].cast<String>();
-    password = json['password'].cast<String>();
+    name = json["name"] == null ? null : List<String>.from(json["name"]);
+    email = json["email"] == null ? null : List<String>.from(json["email"]);
+    phone = json["phone"] == null ? null : List<String>.from(json["phone"]);
+    gender = json["gender"] == null ? null : List<String>.from(json["gender"]);
+    password =
+        json["password"] == null ? null : List<String>.from(json["password"]);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['gender'] = gender;
-    data['password'] = password;
-    return data;
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    if (name != null) {
+      _data["name"] = name;
+    }
+    if (email != null) {
+      _data["email"] = email;
+    }
+    if (phone != null) {
+      _data["phone"] = phone;
+    }
+    if (gender != null) {
+      _data["gender"] = gender;
+    }
+    if (password != null) {
+      _data["password"] = password;
+    }
+    return _data;
   }
 }

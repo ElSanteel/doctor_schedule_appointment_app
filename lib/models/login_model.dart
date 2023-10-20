@@ -1,31 +1,56 @@
-class LoginModel {
+class LoginRequestModel {
+  String email;
+  String password;
+
+  LoginRequestModel(this.email, this.password);
+
+  Map<String, dynamic> toJson() {
+    return {"email": email, "password": password};
+  }
+}
+
+class LoginResponseModel {
   String? message;
-  List<dynamic>? data;
+  Data? data;
   bool? status;
   int? code;
 
-  LoginModel({this.message, this.data, this.status, this.code});
+  LoginResponseModel({this.message, this.data, this.status, this.code});
 
-  LoginModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    if (json['data'] != null) {
-      data = <dynamic>[];
-      json['data'].forEach((v) {
-        data!.add(v);
-      });
-    }
-    status = json['status'];
-    code = json['code'];
+  LoginResponseModel.fromJson(Map<String, dynamic> json) {
+    message = json["message"];
+    data = json["data"] == null ? null : Data.fromJson(json["data"]);
+    status = json["status"];
+    code = json["code"];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data;
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["message"] = message;
+    if (data != null) {
+      _data["data"] = data?.toJson();
     }
-    data['status'] = status;
-    data['code'] = code;
-    return data;
+    _data["status"] = status;
+    _data["code"] = code;
+    return _data;
+  }
+}
+
+class Data {
+  String? token;
+  String? username;
+
+  Data({this.token, this.username});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    token = json["token"];
+    username = json["username"];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> _data = <String, dynamic>{};
+    _data["token"] = token;
+    _data["username"] = username;
+    return _data;
   }
 }

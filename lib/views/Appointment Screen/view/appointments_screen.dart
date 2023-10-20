@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:session_20/blocs/doctor_appointment_app_cubit.dart';
-import 'package:session_20/components/custom_container.dart';
-import 'package:session_20/components/custom_text.dart';
-import 'package:session_20/core/size_config.dart';
+import 'package:session_20/core/utils/size_config.dart';
 
+import '../../../blocs/authentication_cubit/authentication_cubit.dart';
+import '../../../core/components/custom_container.dart';
+import '../../../core/components/custom_text.dart';
 import '../components/custom_list_tile.dart';
 
 class AppointmentsScreen extends StatelessWidget {
@@ -15,12 +15,12 @@ class AppointmentsScreen extends StatelessWidget {
     SizeConfig().init(context);
 
     return Scaffold(
-      body: BlocConsumer<DoctorAppointmentAppCubit, DoctorAppointmentAppState>(
+      body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
           // TODO: implement listener
         },
         builder: (context, state) {
-          var cubit = DoctorAppointmentAppCubit.get(context);
+          var cubit = AuthenticationCubit.get(context);
 
           return Column(children: [
             CustomContainer(

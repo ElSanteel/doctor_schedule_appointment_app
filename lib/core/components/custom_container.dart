@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/size_config.dart';
+import '../utils/size_config.dart';
 
 class CustomContainer extends StatelessWidget {
   String text;
@@ -10,7 +10,7 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: SizeConfig.screenWidth! * 1,
+      width: SizeConfig.screenWidth != null ? SizeConfig.screenWidth! * 1 : 0,
       decoration: const BoxDecoration(
         color: Color(0xff18a7d1),
       ),
