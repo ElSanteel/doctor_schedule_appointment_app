@@ -9,7 +9,6 @@ import 'package:session_20/tokens.dart';
 import '../../models/Login Model/login_request_model.dart';
 import '../../models/Login Model/login_response_model.dart';
 import '../../models/appointment_model.dart';
-import '../../models/Register Model/register_request_model.dart';
 import '../../services/dio/api_end_points.dart';
 
 part 'authentication_state.dart';
@@ -18,30 +17,16 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
   static AuthenticationCubit get(context) => BlocProvider.of(context);
 
-  final loginFormKey = GlobalKey<FormState>();
-  final registerFormKey = GlobalKey<FormState>();
+  var loginFormKey = GlobalKey<FormState>();
 
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
-  TextEditingController registerNameController = TextEditingController();
-  TextEditingController registerEmailController = TextEditingController();
-  TextEditingController registerPhoneController = TextEditingController();
-  TextEditingController registerPasswordController = TextEditingController();
-  TextEditingController registerConfirmationPasswordController =
-      TextEditingController();
 
   bool isVisible = true;
 
-  int selectedGender = 0;
-
-  void setSelectedGenderChanged(gender) {
-    selectedGender = gender;
-    emit(GenderState());
-  }
-
-  void togglePasswordVisibility() {
+  void loginTogglePasswordVisibility() {
     isVisible = !isVisible;
-    emit(PasswordVisibilityChanged(isVisible));
+    emit(LoginPasswordVisibilityChangedState(isVisible));
   }
 
   void userLogin(LoginRequestModel loginRequestModel) {
@@ -66,24 +51,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       }
     }).catchError((onError) {
       emit(UserLoginErrorState(onError.toString()));
-    });
-  }
-
-  void userRegister(RegisterRequestModel registerRequestModel) {
-    emit(UserRegisterLoadingState());
-    print(registerRequestModel.toJson());
-    DioHelper.postData(
-            url: postUserRegister, data: registerRequestModel.toJson())
-        .then((value) {
-      if (value.statusCode == 200 || value.statusCode == 201) {
-        emit(UserRegisterSuccessState());
-      } else {
-        var jsonData = jsonDecode(value.data);
-        print(value.data);
-        emit(UserRegisterErrorState(jsonData['data'].toString()));
-      }
-    }).catchError((onError) {
-      emit(UserRegisterErrorState(onError.toString()));
     });
   }
 

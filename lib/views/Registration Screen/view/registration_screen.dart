@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:session_20/blocs/authentication_cubit/authentication_cubit.dart';
 import 'package:session_20/models/Register%20Model/register_request_model.dart';
+
+import '../../../blocs/register_cubit/register_cubit.dart';
 import '../../../core/components/custom_text_field.dart';
 import '../../Authentication Screen/view/authentication_screen.dart';
 
@@ -21,17 +23,18 @@ class RegisterScreen extends StatelessWidget {
           },
         ),
       ),
-      body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
+      body: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is UserRegisterSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Register Successful')),
             );
-            Navigator.push(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
                       const AuthenticationScreen()),
+              (route) => false,
             );
           } else if (state is UserRegisterErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -40,7 +43,7 @@ class RegisterScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var cubit = AuthenticationCubit.get(context);
+          var cubit = RegisterCubit.get(context);
           return Form(
             key: cubit.registerFormKey,
             child: SingleChildScrollView(
@@ -111,7 +114,7 @@ class RegisterScreen extends StatelessWidget {
                             ? Icons.visibility
                             : Icons.visibility_off),
                         onPressed: () {
-                          cubit.togglePasswordVisibility();
+                          cubit.registerTogglePasswordVisibility();
                         },
                       ),
                       labelText: "Enter your password",
@@ -129,7 +132,7 @@ class RegisterScreen extends StatelessWidget {
                             ? Icons.visibility
                             : Icons.visibility_off),
                         onPressed: () {
-                          cubit.togglePasswordVisibility();
+                          cubit.registerTogglePasswordVisibility();
                         },
                       ),
                       labelText: "Confirm your Password",
@@ -186,8 +189,7 @@ class RegisterScreen extends StatelessWidget {
                                         phone:
                                             cubit.registerPhoneController.text,
                                         passwordConfirmation: cubit
-                                            .registerConfirmationPasswordController
-                                            .text,
+                                            .registerPasswordController.text,
                                         gender: cubit.selectedGender,
                                       );
                                       cubit.userRegister(registerRequestModel);

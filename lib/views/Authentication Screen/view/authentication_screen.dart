@@ -69,7 +69,7 @@ class AuthenticationScreen extends StatelessWidget {
                           ? Icons.visibility
                           : Icons.visibility_off),
                       onPressed: () {
-                        cubit.togglePasswordVisibility();
+                        cubit.loginTogglePasswordVisibility();
                       },
                     ),
                     labelText: "Enter your Password",

@@ -15,20 +15,8 @@ class UserLoginErrorState extends AuthenticationState {
   UserLoginErrorState(this.loginErrorMessage);
 }
 
-class UserRegisterLoadingState extends AuthenticationState {}
-
-class UserRegisterSuccessState extends AuthenticationState {}
-
-class UserRegisterErrorState extends AuthenticationState {
-  String registerErrorMessage;
-
-  UserRegisterErrorState(this.registerErrorMessage);
-}
-
-class GenderState extends AuthenticationState {}
-
-class PasswordVisibilityChanged extends AuthenticationState {
+class LoginPasswordVisibilityChangedState extends AuthenticationState {
   final bool isVisible;
 
-  PasswordVisibilityChanged(this.isVisible);
+  LoginPasswordVisibilityChangedState(this.isVisible);
 }
