@@ -27,12 +27,11 @@ class RegisterScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Register Successful')),
             );
-            Navigator.pushAndRemoveUntil(
+            Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
                       const AuthenticationScreen()),
-              (route) => false,
             );
           } else if (state is UserRegisterErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -121,7 +120,6 @@ class RegisterScreen extends StatelessWidget {
                         if (value == null || value.isEmpty) {
                           return 'Password is required';
                         }
-                        return null;
                       },
                     ),
                     CustomTextField(
@@ -142,10 +140,8 @@ class RegisterScreen extends StatelessWidget {
                           return 'Password is required';
                         } else if (value !=
                             cubit.registerConfirmationPasswordController.text) {
-                          return ' Password don`t match';
+                          return 'Password don`t match';
                         }
-
-                        return null;
                       },
                     ),
                     RadioListTile(
@@ -170,19 +166,32 @@ class RegisterScreen extends StatelessWidget {
                                 onPressed: () {
                                   if (cubit.registerFormKey.currentState!
                                       .validate()) {
-                                    RegisterRequestModel registerRequestModel =
-                                        RegisterRequestModel(
-                                      email: cubit.registerEmailController.text,
-                                      password:
-                                          cubit.registerPasswordController.text,
-                                      name: cubit.registerNameController.text,
-                                      phone: cubit.registerPhoneController.text,
-                                      passwordConfirmation: cubit
-                                          .registerConfirmationPasswordController
-                                          .text,
-                                      gender: cubit.selectedGender,
-                                    );
-                                    cubit.userRegister(registerRequestModel);
+                                    if (cubit.registerPasswordController.text !=
+                                        cubit
+                                            .registerConfirmationPasswordController
+                                            .text) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'Passwords do not match')));
+                                    } else {
+                                      RegisterRequestModel
+                                          registerRequestModel =
+                                          RegisterRequestModel(
+                                        email:
+                                            cubit.registerEmailController.text,
+                                        password: cubit
+                                            .registerPasswordController.text,
+                                        name: cubit.registerNameController.text,
+                                        phone:
+                                            cubit.registerPhoneController.text,
+                                        passwordConfirmation: cubit
+                                            .registerConfirmationPasswordController
+                                            .text,
+                                        gender: cubit.selectedGender,
+                                      );
+                                      cubit.userRegister(registerRequestModel);
+                                    }
                                   }
                                 },
                                 child: const Text('Register'),

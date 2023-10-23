@@ -21,7 +21,7 @@ class RegisterRequestModel {
       "phone": phone,
       "gender": gender,
       "password": password,
-      "password_conformation": passwordConfirmation
+      "password_confirmation": passwordConfirmation
     };
   }
 }
