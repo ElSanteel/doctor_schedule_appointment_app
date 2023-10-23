@@ -25,15 +25,7 @@ class UserRegisterErrorState extends AuthenticationState {
   UserRegisterErrorState(this.registerErrorMessage);
 }
 
-class AuthenticationGenderChanged extends AuthenticationState {
-  final Gender selectedGender;
-
-  AuthenticationGenderChanged(this.selectedGender);
-
-  List<Object> get props {
-    return [selectedGender];
-  }
-}
+class GenderState extends AuthenticationState {}
 
 class PasswordVisibilityChanged extends AuthenticationState {
   final bool isVisible;

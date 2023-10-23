@@ -6,7 +6,6 @@ import 'package:session_20/services/Shared%20Preference/shared_preference_helper
 import 'package:session_20/services/dio/dio_helper.dart';
 import 'package:session_20/tokens.dart';
 
-import '../../enum/gender_enum.dart';
 import '../../models/Login Model/login_request_model.dart';
 import '../../models/Login Model/login_response_model.dart';
 import '../../models/appointment_model.dart';
@@ -33,11 +32,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   bool isVisible = true;
 
-  Gender selectedGender = Gender.male;
+  int selectedGender = 0;
 
-  void setSelectedGender(Gender gender) {
+  void setSelectedGenderChanged(gender) {
     selectedGender = gender;
-    emit(AuthenticationGenderChanged(selectedGender));
+    emit(GenderState());
   }
 
   void togglePasswordVisibility() {
@@ -79,8 +78,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       if (value.statusCode == 200 || value.statusCode == 201) {
         emit(UserRegisterSuccessState());
       } else {
+        var jsonData = jsonDecode(value.data);
         print(value.data);
-        emit(UserRegisterErrorState(value.data.toString()));
+        emit(UserRegisterErrorState(jsonData['data'].toString()));
       }
     }).catchError((onError) {
       emit(UserRegisterErrorState(onError.toString()));

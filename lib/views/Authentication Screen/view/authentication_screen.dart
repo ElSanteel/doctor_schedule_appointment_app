@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:session_20/models/login_model.dart';
 import 'package:session_20/views/Appointment%20Screen/view/appointments_screen.dart';
 import 'package:session_20/views/Registration%20Screen/view/registration_screen.dart';
 import '../../../blocs/authentication_cubit/authentication_cubit.dart';

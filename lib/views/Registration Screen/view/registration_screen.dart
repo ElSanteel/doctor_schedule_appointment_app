@@ -4,7 +4,6 @@ import 'package:session_20/blocs/authentication_cubit/authentication_cubit.dart'
 import 'package:session_20/models/Register%20Model/register_request_model.dart';
 import '../../../core/components/custom_text_field.dart';
 import '../../Authentication Screen/view/authentication_screen.dart';
-import '../component/gender_selection_widget.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -141,16 +140,24 @@ class RegisterScreen extends StatelessWidget {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Password is required';
+                        } else if (value !=
+                            cubit.registerConfirmationPasswordController.text) {
+                          return ' Password don`t match';
                         }
+
                         return null;
                       },
                     ),
-                    GenderSelectionWidget(
-                      selectedGender: cubit.selectedGender,
-                      onGenderChanged: (gender) {
-                        cubit.setSelectedGender(gender);
-                      },
-                    ),
+                    RadioListTile(
+                        title: const Text('Male'),
+                        value: 0,
+                        groupValue: cubit.selectedGender,
+                        onChanged: cubit.setSelectedGenderChanged),
+                    RadioListTile(
+                        title: const Text('Female'),
+                        value: 1,
+                        groupValue: cubit.selectedGender,
+                        onChanged: cubit.setSelectedGenderChanged),
                     Center(
                       child: SizedBox(
                         width: 350,
@@ -170,10 +177,10 @@ class RegisterScreen extends StatelessWidget {
                                           cubit.registerPasswordController.text,
                                       name: cubit.registerNameController.text,
                                       phone: cubit.registerPhoneController.text,
-                                      pasword_confirmation: cubit
+                                      passwordConfirmation: cubit
                                           .registerConfirmationPasswordController
                                           .text,
-                                      gender: cubit.selectedGender.toString(),
+                                      gender: cubit.selectedGender,
                                     );
                                     cubit.userRegister(registerRequestModel);
                                   }
